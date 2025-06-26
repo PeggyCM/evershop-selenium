@@ -43,3 +43,4 @@ class TestLogin:
         fonctionL.FonctionUtilesLogin.saisir_mdp(self,driver,cfg.INVALID_PASSWORD)
         fonctionL.FonctionUtilesLogin.cliquer_bouton_valider(self,driver)
         fonctionL.FonctionUtilesLogin.verifier_message_nok(self,driver)
+        

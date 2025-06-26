@@ -128,3 +128,4 @@ class FonctionsUtilesPaiement:
             (By.CLASS_NAME, "Toastify__toast-body"),"Payment failed"))
         toast = driver.find_element(By.CLASS_NAME, "Toastify__toast-body")
         assert "Payment failed" in toast.text
+        

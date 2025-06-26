@@ -13,7 +13,7 @@ class FonctionUtilesCateg:
     @pytest.fixture(scope="function")
     def driver(self):
         driver = webdriver.Chrome()
-        driver.implicitly_wait(3)
+        driver.implicitly_wait(3) 
         yield driver
         driver.quit()  # Toujours exécuté après le test, même en cas d'échec
 

@@ -202,7 +202,7 @@ class FonctionUtilesPdt:
                 print(f"[INFO] Catégorie '{cfg.PRODUCT_CATEG_MODIF}' sélectionnée.")
                 found = True
                 break
-
+ 
         # Vérifier si la catégorie a été trouvée
         assert found, f"Catégorie '{cfg.PRODUCT_CATEG_MODIF}' non trouvée dans la modale."
 

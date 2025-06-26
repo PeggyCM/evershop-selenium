@@ -77,4 +77,4 @@ class FonctionUtilesCollection:
         wait.until(EC.text_to_be_present_in_element(
             (By.CLASS_NAME, "Toastify__toast-body"),"Collection saved successfully!"))
         toast = driver.find_element(By.CLASS_NAME, "Toastify__toast-body")
-        assert "Collection saved successfully!" in toast.text
+        assert "Collection saved successfully!" in toast.text 
