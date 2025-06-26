@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "name": "Python: Tests with pytest",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/venv/bin/pytest",  // Si tu utilises un environnement virtuel
+            "args": [
+                "--maxfail=1",  // Arrêter après 1 échec (facultatif)
+                "--disable-warnings",  // Désactiver les warnings
+                "-s"  // Afficher les prints et autres sorties
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"  // Ajouter le dossier de travail au PYTHONPATH
+            },
+            "console": "integratedTerminal",
+            "justMyCode": false
+        }
+    ]
+}
