@@ -6,36 +6,32 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-import config_login as cfg
-import test_LAB_login as loginS
-import Test_LAB_CT_FONCTIONS as fonction
+import config as cfg
+import test_LAB_LOGIN as loginS
+import Test_LAB_CT_FONTIONS_PDT as fonctionP
+import Test_LAB_CT_FONCTIONS_CATEG as fonctionC
 
 class TestSupprPdt:
 # ✅ Fixture pour gérer le navigateur
-    @pytest.fixture(scope="class")
+    @pytest.fixture(scope="function")
     def driver(self):
         driver = webdriver.Chrome()
         driver.implicitly_wait(3)
         yield driver
         driver.quit()  # Toujours exécuté après le test, même en cas d'échec
 
-    # ✅ Test de suppression de catégorie
+    # ✅ Test de suppression de produit
     def test_supp_pdt(self,driver):
         #se connecter
         loginS.TestLogin.login_success(self,driver)
-        fonction.FonctionUtiles.aller_pdt(self,driver)
+        fonctionP.FonctionUtilesPdt.aller_pdt(self,driver)
 
-        #coche le premier bouton radio de la liste des categories, le générique
-        boutonRadio = driver.find_elements(By.CSS_SELECTOR, ".field-wrapper.radio-field")
-        boutonRadio[0].click()
-    
-        delete_button = WebDriverWait(driver,10).until(EC.element_to_be_clickable(
-        (By.CSS_SELECTOR, "div.inline-flex a:nth-of-type(4)")))
-        delete_button.click()
-    
-        fonction.FonctionUtiles.bouton_delete_modal(self,driver)
+        #coche le premier bouton radio de la liste des produits
+        ligne_Asupprimer=0
+        fonctionC.FonctionUtilesCateg.cocher_bouton_radio_categ(self,driver,ligne_Asupprimer)
 
-        final_message = WebDriverWait(driver, 10).until(EC.visibility_of_element_located(
-        (By.CSS_SELECTOR, "div.flex.w-full.justify-center")))
-        assert "There is no product to display" in final_message.text
+        fonctionP.FonctionUtilesPdt.bouton_lien_delete(self,driver)  
+        fonctionC.FonctionUtilesCateg.bouton_delete_modal(self,driver)
+
+        fonctionP.FonctionUtilesPdt.verifier_table_pdt_vide(self,driver)
 

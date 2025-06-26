@@ -6,8 +6,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import config as cfg
-import test_lab_login as loginS
-import Test_LAB_CT_FONCTIONS as fonction
+import test_LAB_LOGIN as loginS
+import Test_LAB_CT_FONCTIONS_CATEG as fonction
 
 
 class TestModifCateg:
@@ -24,28 +24,21 @@ class TestModifCateg:
         # Connexion d'abord
         loginS.TestLogin.login_success(self,driver)
 
-        fonction.FonctionUtiles.aller_categ(self,driver)
+        fonction.FonctionUtilesCateg.aller_categ(self,driver)
 
-        WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located(
-        (By.CSS_SELECTOR, ".main-content-inner"))) 
-            
-        liste_categ = driver.find_elements(By.CSS_SELECTOR, ".listing > tbody > tr > td > div > a")
-                       
-        for item in liste_categ:
-            if cfg.CATEGORY_NAME_old in item.text and item.text == cfg.CATEGORY_NAME_old:
-                item.click()  # Cliquer sur l'élément correspondant
-                break  # Sortir de la boucle une fois l'élément trouvé et cliqué
+        #chercher un nom de parent dans la liste
+        fonction.FonctionUtilesCateg.chercher_element_dans_liste(self,driver,
+            ".main-content-inner",".listing > tbody > tr > td > div > a",cfg.CATEGORY_NAME_old)
 
-        # Modifier le formulaire 
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "name")))
-    
-        inputAModif = driver.find_element(By.NAME, "name").clear()
-        inputAModif = driver.find_element(By.NAME, "name").send_keys(cfg.CATEGORY_NAME_new)
+        # Modifier le nom de la categorie
+        fonction.FonctionUtilesCateg.remplir_nom_categ_pdt(self,driver,cfg.CATEGORY_NAME_new)
     
         # Sauvegarder la catégorie
-        WebDriverWait(driver, 10).until(EC.element_to_be_clickable(
-        (By.CSS_SELECTOR, "button.primary[type='button']"))).click()
+        fonction.FonctionUtilesCateg.sauver_categ_pdt(self,driver)
 
         #test du toast
-        toast=fonction.FonctionUtiles.verifier_toast(self,driver)
-        assert "Category saved successfully!" in toast.text
+        message = "Category saved successfully!"
+        fonction.FonctionUtilesCateg.verifier_toast(self,driver,message)
+        
+        # Attend que le titre devienne "Editing" + nom_categ
+        fonction.FonctionUtilesCateg.verifier_page_categ_pdt_apres_sauver(self,driver,cfg.CATEGORY_NAME_new) 
